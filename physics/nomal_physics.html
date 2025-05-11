@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>physics</title>
+  <link rel="stylesheet" href="../css/study.css">
+</head>
+
+<body>
+  <div class="home">
+    <a href="/">HOME</a>
+  </div>
+
+  <h1>일반물리학</h1>
+  <div class="container">
+    <h2>1차원 운동</h2>
+    <div class="item">
+      <p>평균속도 : <span class="hidden">v(avr) = s / t</span></p>
+      <p>순간속도 : <span class="hidden">v = ds / dt</span></p>
+      <p>속력 : <span class="hidden">|v|</span></p>
+      <p>가속도 : <span class="hidden">a = dv / dt</span></p>
+
+      <fieldset>
+        <legend>등가속도 둔동</legend>
+        <ol class="flex">
+          <li>
+            <h4>평균 가속도</h4>
+            <div class="flex">
+              <span class="formula"><br> a = </span>
+              <span class="hidden formula">Vx - Vx0 <br> -------- <br>&nbsp;&nbsp;&nbsp;&nbsp; t</span>
+            </div>
+          </li>
+          <li>
+            <h4>t초 후의 속도</h4>
+            <div class="flex">
+              <span class="formula"><br> Vx = </span>
+              <span class="hidden formula"><br> Vx0 + at</span>
+            </div>
+          </li>
+
+          <li>
+            <h4>t초 후의 위치</h4>
+            <div class="flex">
+              <span class="formula"><br> x = </span>
+              <span class="hidden formula"><br> x0 + (1/2)(Vx0 + Vx)t</span>
+            </div>
+          </li>
+
+          <li>
+            <h4>거리 x를 다른 식으로 표현</h4>
+            <div class="flex">
+              <span class="formula"><br> x = </span>
+              <span class="hidden formula"><br> x0 + Vx0t + (1/2)at^2</span>
+            </div>
+          </li>
+
+          <li>
+            <h4>속도v를 가속도 a와 거리 x로의 표현</h4>
+            <div class="flex">
+              <span class="formula"><br> Vx^2 = </span>
+              <span class="hidden formula"><br> Vx0^2 + 2a(x - x0)</span>
+            </div>
+          </li>
+        </ol>
+      </fieldset>
+      <h3>y축 운동 (자유낙하운동)</h3>
+      <p>&nbsp;&nbsp; 중력가속도 g = <span class="hidden">-9.8m/s^2</span></p>
+      <p>Q : 최고점은? / A : <span class="hidden">V = 0일 때</span></p>
+    </div>
+
+    <h2>포물선 운동(공식에서 g = 9.8m/s^2이라 가정)</h2>
+    <div class="item">
+      <p>포물선 운동은 독립한 x축 + y축 운동이다</p>
+      <p class="formula">V = <span class="hidden"> (V0)(cosθ)i + (V0)(sinθ)j </span> / (x0, y0) = 0 / 각도 = θ</p>
+      <h4>t초 후의 속도</h4>
+      <div class="flex">
+        <div>
+          <p>x축 - 등속도 운동</p>
+          <span>Vx = </span><span class="hidden formula">(V0)cosθ</span>
+        </div>
+        <div>
+          <p>y축 - 연직 상방</p>
+          <span>Vy0 = </span><span class="hidden formula"> (V0)sinθ</span> <br> <br>
+          <span>Vy = </span><span class="hidden formula">(V0)sinθ - (g)t</span>
+          <span>&nbsp;&nbsp;Vy^2 = </span><span class="hidden formula">((V0)sinθ)^2 - (g)y</span>
+        </div>
+      </div>
+
+      <h4>t초 후의 위치</h4>
+      <div class="flex">
+        <div>
+          <p>x = ((V0)cosθ)t</p>
+          <p>y = ((V0)sinθ)t - (1/2)(9.8)t^2</p>
+          <p>t = x / (V0)cosθ 이므로</p>
+        </div>
+
+        <div>
+          <p>x = <span class="hidden formula">((V0)cosθ)t</span></p>
+        </div>
+        <span><br> y = </span>
+        <span class="hidden formula"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (-g) <br> ---------------- x^2 + (tanθ)x <br>
+          2(V0cosθ)^2</span>
+        <div></div>
+        <div>
+          <span>
+            <h5>수평도달</h5> &nbsp; &nbsp; &nbsp; &nbsp; x =
+          </span>
+        </div>
+        <span class="hidden formula"><br><br><br><br><br>((V0)sinθ)^2 <br> -------- <br> &nbsp;&nbsp; g</span>
+      </div>
+      <h4></h4>
+    </div>
+
+    <h4>등속 원운동</h4>
+    <div class="item">
+      <p>dV = V1 - V0</p>
+      <p>|r| = 변화 없음</p>
+
+      <div class="flex">
+        <h4>dt -> 0 일때 순간가속도 a = </h4>
+        <span class="hidden formula"><br>V^2 <br> ------ <br> &nbsp; r</span>
+      </div>
+    </div>
+
+    <h2>힘과 운동</h2>
+    <div class="item">
+      <h3>Newton의 법칙</h3>
+      <ol>
+        <li>관성의 법칙</li>
+        <li>F = ma</li>
+        <li>작용 반작용</li>
+      </ol>
+      <br>
+      <h3>힘의 특성</h3>
+      <p>1. 무게(weight) : mg / 질량(scalor) : m</p>
+      <p>2. 수직합</p>
+      <p>3. 장력</p>
+
+      <h1>F = ma</h1>
+      <br>
+
+      <h3>마찰력</h3>
+      <ul>
+        <li>정지 마찰력</li>
+        <li>최대 마찰력</li>
+        <li>운동 마찰력</li>
+      </ul>
+    </div>
+
+    <h2>유체 액체에서의 마찰력</h2>
+    <div class="item">
+      <p>액체 공기에서 진행하는 방향으로 저항 <span class="hidden">항력</span></p>
+
+      <h3>D = (1/2)CPAV^2</h3>
+      <p>항력 = (1/2)<span class="hidden">끌림저항 계수 x 밀도 x 단면적 x 상대속도</span></p>
+
+      <div class="flex">
+        <p>terminal <br> velocity</p>
+        <span><br>&nbsp; &nbsp; &nbsp; Vt = </span>
+        <span class="formula hidden"> <br>&nbsp;&nbsp;2mg <br>( ------- )^(1/2)<br> &nbsp;&nbsp;CPA</span>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Design and Analysis of Algorithms</title>
+  <link rel="stylesheet" href="../css/study.css">
+</head>
+<body>
+  <div class="home">
+    <a href="./index.html">HOME</a>
+  </div>
+
+  <h1>Characterizing Running Times</h1>
+  <div class="container">
+    <h2>3.1 O-notation, Ω-notation, and θ-notation</h2>
+    <div class="item">
+      <h3>Asymptotic Notations</h3>
+      <p>입력 크기에 따른 알고리즘의 실행시간</p>
+      <ul>
+        <li>
+          <h4>Asymptotic notation: O-notation</h4>
+          <span> upper bound</span>
+          <p>O(g(n)) = {f(n) : there exist positive constants c and n0 such that <br>&nbsp;&nbsp; 0 &#60;= f(n) &#60;= cg(n) for all n &#62;= n0}</p>
+        </li>
+        <li>
+          <h4> Asymptotic notation: Ω-notation</h4>
+          <span> lower bound</span>
+          <p>Ω(g(n)) = {f(n) : there exist positive constants c and n0 such that <br>&nbsp;&nbsp; 0 &#60;= cg(n) &#60;= f(n) for all n &#62;= n0}</p>
+        </li>
+        <li>
+          <h4> Asymptotic notation: θ-notation</h4>
+          <span> tight bound</span>
+          <p>θ(g(n)) = {f(n) : there exist positive constants c1, c2 and n0 such that <br>&nbsp;&nbsp; 0 &#60;= c1g(n) &#60;= f(n) &#60;= c2g(n) for all n &#62;= n0}</p>          
+        </li>
+        <br>
+        <br>
+        <li>
+          <h4>o-notation</h4>
+          <span>upper bound that is not asymptotically tight.</span>
+          <p>o(g(n)) = {f(n) : for any positive constants, there exists a constant n0 > 0 such that <br>&nbsp;&nbsp; 0 &#60;= f(n) &#60; cg(n) for all n &#62;= n0}</p>
+          <span>f(n) is asymptotically smaller than g(n)</span>
+        </li>
+        <li>
+          <h4>ω-notation</h4>
+          <span>a lower bound that is not asymptotically tight</span>
+          <p>ω(g(n)) = {f(n) : for any positive constants, there exists a constant n0 > 0 such that <br>&nbsp;&nbsp; 0 &#60;= cg(n) &#60; f(n) for all n &#62;= n0}</p>
+          <span>f(n) is asymptotically larger than g(n)</span>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Standard Notations and Common Functions</h2>
+    <div class="item">
+      <h3>Monotonicity</h3>
+      <ul>
+        <li>A function f(n) is monotonically increasing if m	&#60;= n implies f(m) &#60;= f(n)</li>
+        <li>A function f(n) is monotonically decreasing if m	&#60;= n implies f(m) &#62;= f(n)</li>
+        <li>A function f(n) is strictly increasing if  m	&#60; n implies f(m) &#60; f(n)</li>
+        <li>A function f(n) is strictly decreasing if  m	&#60; n implies f(m) &#62; f(n)</li>
+      </ul>
+      <br>
+      <h3>Floors and Ceilings</h3>
+      <img src="../image/Floors_and_Ceilings.png" alt="Floors and Ceilings">
+    </div>
+  </div>
+</body>
+</html>

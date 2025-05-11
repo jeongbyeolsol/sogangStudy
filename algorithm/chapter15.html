@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greedy Algorithms</title>
+  <link rel="stylesheet" href="../css/study.css">
+</head>
+
+<body>
+  <div class="home">
+    <a href="./index.html">HOME</a>
+  </div>
+
+  <h1>Greedy Algorithms</h1>
+  <div class="container">
+    <h2>Overview</h2>
+    <div class="item">
+      <ul>
+        <li>Greedy Algorithms은 항상 현재 순간에 가장 좋아 보이는 선택을 함 ( 지역적으로 최적의 선택 -> 최적의 해로 이끄기를 기대)</li>
+        <li>문제에 따라서는 탐욕 알고리즘이 최적의 해를 제공하지 않을 수 있음</li>
+      </ul>
+      <ul>
+        <li>
+          <h4>Greedy-Choice Property</h4>
+          <ul>
+            <li>일부 문제에서 지역적으로 최적의(탐욕적) 선택을 하면 전역적으로 최적의 해결책을 구성</li>
+            <li>떤 선택을 할지 고려할 때, 현재 문제에서 가장 좋아 보이는 선택을 하며 이때 하위 문제의 결과를 고려하지 않음</li>
+            <li>현재 순간에서 가장 좋아 보이는 선택을 하고 남아 있는 하위 문제를 해결</li>
+          </ul>
+        </li>
+        <li>
+          <h4>The case for dynamic programming problems</h4>
+          <ul>
+            <li>각 단계에서 선택을 하지만 선택은 일반적으로 하위 문제의 해결에 의존</li>
+            <li> 일반적으로 하위 문제에서 더 큰 하위 문제로 진행하면서 bottomup 방식으로 해결</li>
+          </ul>
+        </li>
+      </ul>
+      <br>
+
+      <h3>Exchange Argument</h3>
+      <p>greedy algorithm을 적용하기 위해서는 greedy choices가 전역적으로 최적의 해결책으로 이끄는지를 증명해야 함</p>
+      <p>일반적으로 exchange argument라 불리는 것을 사용</p>
+      <ol>
+        <li>하위 문제에 대한 최적 해결책이 있다고 가정</li>
+        <li>최적 해결책에서 어떤 다른 선택지 대신에 탐욕적 선택을 대입</li>
+        <li>마지막으로, 우리는 탐욕적 선택이 다른 선택지와 적어도 같은 결과를 만들어낸다는 것을 증명</li>
+      </ol>
+    </div>
+
+    <h2>An Activity-Selection Problem</h2>
+    <div class="item">
+      <h3>Introduction</h3>
+      <p>여러 활동을 일정에 포함시키는 문제를 고려 / 활동에는 공통 리소스 사용 필요 / 상호 호환 가능한 활동들의 최대 크기의 집합을 선택하는 것이 목표</p>
+      <p>S = {a1, a2, ..., an} 의 n개의 활동을 가지고 있는 집합</p>
+      <p>각 활동에는 시작시간( si )과 끝나는 시간( fi )이 있음 / 사용 시간 [ si, fi &#41; / (0 &#60;= si &#60;= fi &#60; INF) / si >= fj 또는 sj
+        >= fi 면 호환 가능</p>
+      <br>
+
+      <h3>The Problem</h3>
+      <p>입력에서는 활동들이 종료 시간의 단조 증가 순서로 정렬되어 있다고 가정</p>
+      <table>
+        <p>example</p>
+        <tr class="main">
+          <td>i</td>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+          <td>7</td>
+          <td>8</td>
+          <td>9</td>
+          <td>10</td>
+          <td>11</td>
+        </tr>
+        <tr>
+          <td class="main">si</td>
+          <td>1</td>
+          <td>3</td>
+          <td>0</td>
+          <td>5</td>
+          <td>3</td>
+          <td>5</td>
+          <td>6</td>
+          <td>7</td>
+          <td>8</td>
+          <td>2</td>
+          <td>12</td>
+        </tr>
+        <tr>
+          <td class="main">fi</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+          <td>7</td>
+          <td>9</td>
+          <td>9</td>
+          <td>10</td>
+          <td>11</td>
+          <td>12</td>
+          <td>14</td>
+          <td>16</td>
+        </tr>
+      </table>
+      <br>
+
+      <h3>The Optimal Substructure</h3>
+      <p>dynamic programming으로도 해결할 수 있음</p>
+      <p>Sij = ai이후 시간에 시작해서 aj시간 이전에 끝나는 활동의 집합 / 목표 : 최대 집합인 Sij 찾기</p>
+      <p>Aij는 ak를 포함하는 maximum set이라 가정 -> 두개의 subproblem</p>
+      <ul class="flex">
+        <li>find Sik &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+        <li>Find Skj</li>
+      </ul>
+      <p>Aik = Aij ∩ Sik &nbsp;&nbsp;/&nbsp;&nbsp; Akj = Aif ∩ Skj &nbsp;&nbsp;/&nbsp;&nbsp; 따라서 Aij = Aik ∪ ak ∪ Akj
+        &nbsp;&nbsp;/&nbsp;&nbsp; |Aij| = |Aik| + |Akj| + 1</p>
+      <p>c[i, j] = Sij의 크기 &nbsp;&nbsp;/&nbsp;&nbsp; 따라서 c[i, j] = c[i, k] + c[k, k] + 1 </p>
+      <img src="../image/The Optimal Substructure_dynamic programming.png"
+        alt="The Optimal Substructure_dynamic programming">
+      <br> <br>
+
+      <h3>Making the Greedy Choice</h3>
+      <p>활동 선택 문제에서 우리는 하나의 선택만 고려 : the greedy choice</p>
+      <p>최대한 많은 다른 활동에 리소스를 사용할 수 있도록 직관적으로 활동을 선택하려면 최대한 빨리 끝나는 활동을 선택</p>
+      <p>a1 선택 -> a1 이후 시작할 수 있는 활동(ak) 선택 -> ak 이후 시작할 수 있는 활동 선택 (반복)</p>
+      <ul>
+        <p>증명 : </p>
+        <li> 가정 : nonempty subproblem Sk, and let am (Sk 안의 가장 이른 끝나는 시간을 가짐) / am은 어떤 maxomum size subset에 속함</li>
+        <li>Ak = maximum-size subset of mutually compatible activities in Sk and aj가 가장 이른 끝나는 시간을 가짐</li>
+        <li>aj = am -> done</li>
+        <li>aj != am -> A'k = (Ak - {aj}) ∪ {am} / fm &#60;= fj</li>
+        <li>|A'k| = |Ak|</li>
+      </ul> <br>
+      <img src="../image/The Greedy Algorithm_Recursive Version.png" alt="The Greedy Algorithm_Recursive Version">
+      <img src="../image/The Greedy Algorithm_Iterative Version.png" alt="The Greedy Algorithm_Iterative Version">
+      <br>
+      <p>입력이 이미 정렬되어 있다고 가정, Running time : Θ(n)</p>
+    </div>
+
+    <h2>Elements of the Greedy Strategy </h2>
+    <div class="item">
+      <h3>The Knapsack Problems</h3>
+      <ul>
+        <li>
+          <h4>0-1 Knapsack Problem</h4>
+          <p>도둑이 최대 W만큼 담을 수 있는 가방에 최대한 가치 있는것을 담으려 함</p>
+          <p>n개의 아이템중 무엇이든 고를 수 있고 ith 아이템에 vi 달러 wi 파운드가 나감 (vi, wi는 정수)</p>
+          <br>
+          <p>Optimal Substructure</p>
+          <p> 무게가 최대 W 파운드인 것에 항목 j가 포함되어 있다면, 나머지 하중은 도둑이 항목 j를 제외한 n - 1개의 원래 항목에서 가져올 수 있는 최대 가치의 하중 중 무게가 최대 W - wi
+            파운드이다.</p>
+        </li>
+        <li>
+          <h4>Fractional Knapsack Problem</h4>
+          <p>0-1 배낭 문제와 동일한 설정을 가지지만, 도둑은 각 항목에 대해 이진 (0-1) 선택을 해야 하는 대신 항목의 일부를 취할 수 있다.</p>
+          <br>
+          <p>Optimal Substructure</p>
+          <p>만약 무게가 최대 W 파운드인 최대 가치의 하중에 항목 j의 무게 w가 포함되어 있다면, 나머지 하중은 도둑이 n - 1개의 원래 항목에서 가져올 수 있는 최대 가치의 하중 중 무게가 최대 W - w 파운드이어야 하며, 이에 항목 j의 wj - w 파운드를 추가</p>
+        </li>
+      </ul>
+      <br>
+
+      <h3>Applying Greedy Strategy to Fractional Knapsac</h3>
+      <ol>
+        <li>각 항목에 대한 파운드 당 가치인 vi / wi를 계산</li>
+        <li>가장 높은 파운드 당 가치를 가진 항목에서 최대한 많이 가져감</li>
+        <li>다음으로 가치가 높은 항목에서 최대한 많이 가져감 / 위 과정을 무게 제한 W에 도달할 때까지 반복</li>
+        <p>물건을 파운드 당 가치에 따라 정렬하면, 실행 시간 : O(nlogn)</p>
+      </ol>
+      <br>
+
+      <h3>Applying Greedy Strategy to 0-1 Knapsack</h3>
+      <ul>
+        <p>An intuitive interpretation</p>
+        <li>상점에는 n개의 물건</li>
+        <li>i번째 물건은 wi 킬로그램이고 pi 원의 가치 (양의 정수)</li>
+        <li>최대 W 킬로그램을 운반할 수 있는 배낭 (양의 정수)</li>
+      </ul>
+      <img src="../image/Knapsack Problem.png" alt="Knapsack Problem">
+      <br>
+      
+      <fieldset>
+        <legend>The 0-1 Knapsack Problem</legend>
+        <p>int zero_one_knapsack(int *p, int *w, int n, int W) {</p>
+        <p>&nbsp;&nbsp;int i, ww, tmp;</p>
+        <p>&nbsp;&nbsp;...</p>
+        <p>&nbsp;&nbsp;for (ww = 0; ww &#60;= W; ww++) P[0][ww] = 0;</p>
+        <p>&nbsp;&nbsp;for (i = 0; i&#60;=; i++) {</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;P[i][0] = 0;</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;for (ww = 1; ww &#60;= W; ww++) {</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (w[i] &#60;= ww) {</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((tmp = p[i] + P[i-1][ww-w[i]]) > P[i-1][ww]) P[i][ww] = tmp;</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else P[i][ww] = P[i-1][ww];</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else P[i][ww] = P[i-1][ww];</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+        <p>&nbsp;&nbsp;}</p>
+        <p>&nbsp;&nbsp; return P[n][W];</p>
+        <p>}</p>
+      </fieldset>
+      <p>O(mW) time</p>
+      <p>최악의 경우에 O(2^n) 개의 항목을 계산</p>
+      <p>Q :  What if we use the divide-and-conquer strategy to solve this problem? -> would get an O(2^n) algorithm.</p>
+      <br>
+
+      <h4>A Variation of the 0-1 Knapsack Problem: Divide-and-Conquer</h4>
+      <p>만약 첫 번째 i개의 항목 중에서 총 길이가 j인 부분집합이 있다면 fill(i, j)는 TRUE를 반환</p>
+      <ul>
+        <p>fill(i, j)가 TRUE를 반환할 때:</p>
+        <li>i번째 항목을 사용한 경우, fill(i - 1, j - li)가 TRUE를 반환</li>
+        <li>i번째 항목을 사용하지 않은 경우, fill(i - 1, j)가 TRUE를 반환</li>
+      </ul>
+      <img src="../image/A Variation of the 0-1 Knapsack Problem_Divide-and-Conquer.png" alt="A Variation of the 0-1 Knapsack Problem_Divide-and-Conquer">
+      <br>
+
+      <h4>A Variation of the 0-1 Knapsack Problem: Dynamic Programming</h4>
+      <img src="../image/A Variation of the 0-1 Knapsack Problem_Dynamic Programming.png" alt="A Variation of the 0-1 Knapsack Problem_Dynamic Programming">
+      <br> <br>
+
+      <h3>The Fractional Knapsack Problem</h3>
+      <p>A greedy approach : 이익 당 단위 무게인 pi / wi에 따라 물건들을 내림차순으로 정렬</p>
+      <p>배낭이 가득 찰 때까지 물건을 하나씩 선택 / 선택은 부분적으로 될 수 있음</p>
+      <p></p>
+    </div>
+
+    <h2>Huffman Codes</h2>
+    <div class="item">
+      <p> Huffman codes는 데이터를 압축하는 데 사용</p>
+      <p>(원본) 데이터는 문자의 시퀀스로 도착 /  각 문자가 얼마나 자주 나타나는지 (빈도)를 나타내는 표를 사용하여 각 문자를 이진 문자열로 효율적으로 표현하는 방법을 구축합</p>
+      <p> 문자를 그대로 저장하는 대신 각 문자에 이진 코드를 할당 -> 해당 이진 코드로 인코딩 (압축 파일이 다시 원시 파일로 변환될 수 있도록 이진 코드가 할당)</p>
+      <ul>
+        <li>
+          <h4>Fixed-length codes</h4>
+          <p>모든 문자를 일정한 비트 수의 코드워드로 인코딩</p>
+          <p>n개의 문자가 있다면 문자를 나타내는 데 log n 비트가 필요</p>
+        </li>
+        <li>
+          <h4>Variable-length codes</h4>
+          <p>서로 다른 길이의 코드워드를 사용하여 문자를 인코딩</p>
+          <p>빈번한 문자에는 짧은 코드워드를 부여하고, 드물게 나타나는 문자에는 긴 코드워드를 부여</p>
+        </li>
+      </ul>
+      <br>
+
+      <h3>Huffman Codes: Finding Optimal Codes</h3>
+      <p>주어진 파일에서 목표는 파일을 가장 적은 비트로 표현할 수 있는 코드워드 세트를 찾는 것</p>
+      <p>가변 길이 코드를 사용할 때 압축된 파일을 다시 원시 파일로 복원할 수 있도록 하려면 prefix-free code를 사용(구분자를 사용할 필요x)</p>
+      <p>A prefix-free code : 어떤 코드워드도 다른 코드워드의 접두사가 되지 않음</p>
+      <br>
+
+      <h3>Huffman Codes: Binary Tree Representation</h3>
+      <ul>
+        <p>고정 길이 코드를 위한 이진 표현(full binary tree -  Every nonleaf node has two children.)</p>
+        <li>leaves : 문자를 나타냅</li>
+        <li>노드의 숫자는 서브트리에서 문자의 누적 빈도</li>
+        <li>코드워드를 디코딩하려면 루트에서 시작하여 잎에 도달할 때까지 경로를 따름</li>
+        <li>full binary tree proof : T가 에 자식이 하나인 노드 u와 자식 v가 있다면 edge (u, v)를 v의 자식으로 교체 -> a better coding</li>
+        <li>완전 이진 트리 -> prefix-free code는 정확히 |C|개의 잎과 정확히 |C| - 1개의 내부 노드를 가짐</li>
+        <img src="../image/number of bits required to encode a file.png" alt="number of bits required to encode a file">
+      </ul>
+      <br>
+
+      <h3>Constructing a Huffman Code</h3>
+      <img src="../image/Constructing a Huffman Code.png" alt="Constructing a Huffman Code">
+      <img src="../image/Constructing a Huffman Code_2.png" alt="Constructing a Huffman Code_2">
+      <br>
+      <p>C에서 x와 y가 가장 낮은 빈도수를 가졌다고 가정할 때 x와 y는 같은 길이의 prefix-free code를 가짐</p>
+      <p>최적의 트리를 병합하여 구축하는 과정이 가장 낮은 빈도를 가진 두 문자를 병합하는 것으로 시작할 수 있다는 greedy choice를 함을 나타냄</p>
+      <p>C -> C' = (C - {x, y}) ∪ {z} / z.freq = x.freq + y.freq</p>
+      <img src="../image/Correctness of Huffman's Algorithm_proof.png" alt="Correctness of Huffman's Algorithm_proof">
+      <img src="../image/Correctness of Huffman's Algorithm_proof_2.png" alt="Correctness of Huffman's Algorithm_proof_2">
+    </div>
+  
+    <h2>Extra: Scheduling with Greedy Methods</h2>
+    <div class="item">
+      <h3>Scheduling: Minimizing Total Time in the System</h3>
+      <p>문제 : n개의 클라이언트를 서비스할 서버 시스템을 고려 / T = {t1, t2, ..., tn}은 각 클라이언트에 대한 완료 예상 소요 시간으로 이루어진 양의 수의 집합</p>
+      <p>Q : 시간을 최소화하는 최적의 서비스 순서는?</p>
+      <ul>
+        <li>
+          <p>A naive approach : 모든 경우의 수 탐색 / 시간 복잡도: O(n!)</p>
+        </li>
+        <li>
+          <p>A greedy approach : T를 오름차순(마감 시간 기준)로 정렬하여 최적의 일정을 얻음 / 시간 복잡도: O(nlog n)</p>
+        </li>
+      </ul>
+      <p>i번째 작업은 ti 단위의 처리 시간이 소요되며, 시간 di에 완료되어야 함</p>
+      <p>i번째 작업이 시간 si에 시작될 때, 해당 작업의 지연은 li = max{0, si + ti - di} / 목표: 최대 지연 L = max{li}을 최소화하는 일정 S를 찾기</p>
+      <br>
+      <p>"교환 주장(exchange argument)" -> Earliest-Deadline-First(EDF)이 최대 지연을 최소화 함을 증명</p>
+      <ul>
+        <li>nversion in schedule S : di &#60; dj이지만 j가 i보다 먼저 예약된 작업 쌍</li>
+        <li>Q : Does EDF create an inversion?</li>
+        <li><img src="../image/Earliest-Deadline-First algorithm.png" alt="Earliest-Deadline-First algorithm"></li>
+        <li>A : 역전된 일정을 교환하면 역전의 수가 하나 감소하고, 최대 지연은 증가하지 않는 일정을 얻음 / The optimal schedule does not have inversions -> EDF</li>
+      </ul>
+      <br>
+
+      <h3>Scheduling with Deadlines</h3>
+      <ul>
+        <p>Problem</p>
+        <li>J = {1, 2, …, n}는 서비스될 작업의 집합</li>
+        <li>각 작업은 완료하는 데 하나의 시간 단위가 걸림</li>
+        <li>각 작업은 마감 기한과 이익을 가지고 있음</li>
+        <li>작업이 마감 기한 전이거나 마감 기한에 시작된다면 이익을 얻음 -> 이익 극대화</li>
+      </ul>
+      <br>
+      <ul>
+        <p>A greedy algorithm</p>
+        <li>작업을 이익에 대해 내림차순으로 정렬</li>
+        <li>정렬된 목록에서 각 작업을 스캔하고 가능하다면 일정에 추가</li>
+        <li>
+          <p>A key operation in the greedy approach</p>
+          <ul>
+            <li>S가 실행 가능한지 여부를 결정</li>
+            <li>S가 실행 가능한 경우, 그리고 오직 그 경우에만, S의 작업을 마감 기한을 오름차순으로 정렬하여 얻은 일련이 실행 가능함</li>
+          </ul>
+        </li>
+        <li>
+          <p>An O(n^2) implementation</p>
+          <ul>
+            <li>작업을 이익에 대해 비감소 순서로 정렬</li>
+            <li>정렬된 순서대로 각 작업에 대해, 현재 작업이 이전에 선택된 작업들과 함께 일정화될 수 있는지를 확인</li>
+            <li>가능하다면, 실행 가능한 일련의 목록에 추가 / 그렇지 않으면 거부</li>
+            <li>i-1개의 작업 있는 경우, 새 작업을 일련에 추가하는 데 최대 i-1번의 비교가 필요하며, 새로운 일련이 실행 가능한지 확인하는 데 최대 i번의 비교가 필요</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting in Linear Time</title>
+  <link rel="stylesheet" href="../css/study.css">
+</head>
+<body>
+  <div class="home">
+    <a href="./index.html">HOME</a>
+  </div>
+
+  <h1>Sorting in Linear Time</h1>
+  <div class="container">
+    <h2>Lower Bounds for Sorting</h2>
+    <div class="item">
+      <h3>comparison sort (비교 정렬)</h3>
+      <p>입력 시퀀스에 대한 순서 정보를 얻기 위해 요소 간의 비교만 사용(요소가 중복되지 않음을 가정)</p>
+      <br>
+      
+      <h3>Decision Tree</h3>
+      <p> 특정 정렬 알고리즘에 의해 수행되는 요소 간의 비교를 나타내는 완전한 이진 트리(완전 이진 트리)</p>
+      <ul>
+        <li>내부노드: i:j의 순서간 비교를 나타냄</li>
+        <li>리프노드 순열을 표시함</li>
+        <li>내부노드와 리프노드의 인덱스 = 정렬 알고리즘 시작 시 배열 요소의 원래 위치</li>
+        <li>비교정렬 실행 = 루트에서 리프까지의 경로</li>
+        <li>n개의 요소에 n!개의 리프</li>
+      </ul>
+      <img src="../image/Decision_tree.png" alt="Decision_tree">
+      <h4>The worst-case number of comparisons</h4>
+      <p>: 루트에서 해당 결정노드까지의 가장 긴 경로의 길이(결정 트리의 높이)</p>
+      <p>Any comparison sort algorithm : Ω(nlog n)</p>
+      <img src="../image/Comparison_sort_lower_bound.png" alt="Comparison_sort_lower_bound">
+    </div>
+
+    <h2>Counting Sort</h2>
+    <div class="item">
+      <p>가정: 각 입력 요소는 어떤 정수 k에 대해 0에서 k까지의 범위 내의 정수</p>
+      <h4>counting sort running time : Θ(n + k)</h4>
+      <p>&nbsp;&nbsp; if k = O(n), then Θ(n)</p>
+      <br>
+      <ul>
+        <li> 각 입력 요소에 대해, 먼저 x개 이하의 요소의 개수를 결정</li>
+        <li>요소 x를 출력 배열의 위치로 직접 배치</li>
+      </ul>
+      <img src="../image/Counting_sort.png" alt="Counting_sort">
+      <img src="../image/Counting_sort_operation.png" alt="Counting_sort_operation">
+      <br>
+      <p>Counting sort can be asymptotically faster than Θ(nlog n) because it is not a comparison sort</p>
+      <h4> Counting sort is stable</h4>
+      <p>: 같은 값을 가진 요소들은 출력 배열에서 입력 배열과 동일한 순서로 나타남</p>
+    </div>
+    
+    <h2>Radix Sort</h2>
+    <div class="item">
+      <h3>Radix Sort: Strategy</h3>
+        <ul>
+          <li>기수정렬(radix sort)은 정렬 문제를 가장 작은 유효 숫자(ex 1의 자릿수)부터 정렬 후 크기에 맞게 정렬</li>
+          <li>다음으로 두 번째로 유효한 숫자로 전체 덱을 다시 정렬 후 결합</li>
+          <li>위 과정을 d 자릿수까지 반복 -> 정렬</li>
+          <li>따라서 정렬에는 d개의 단계가 필요</li>
+        </ul>
+        <img src="../image/Radix_Sort.png" alt="Radix_Sort">
+        <br>
+        <h3>Radix Sort: Algorithm</h3>
+        <fieldset>
+          <legend>RADIX-SORT(A, n, d)</legend>
+          <ol>
+            <li>for i = 1 to d</li>
+            <li>&nbsp;&nbsp; use a stable sort to sort array A[1:n] on digit i</li>
+          </ol>
+        </fieldset>
+        <br>
+        <h3>Radix Sort: Running Time</h3>
+        <ul>
+          <li>각 자릿수가 최대 k개의 가능한 값을 가질 수 있는 d자리 숫자가 n개 주어진 경우</li>
+          <li>RADIX-SORT correctly sorts these numbers in Θ(d(n + k)) time</li>
+          <li>stable sort가 Θ(n + k)만큼 걸린다 가정</li>
+          <li>d가 상수이고 k = O(n)인 경우, radix sort run in linear time</li>
+        </ul>
+        <br>
+        <h3>Radix Sort: Breaking a Number into Digits</h3>
+        <p>n개의 b-비트 숫자와 양의 정수 r (r은 b 이하)가 주어진 경우 : </p>
+        <h4>&nbsp;&nbsp;Θ((b/r)(n + 2^r))</h4>
+        <ul>
+          <li>d = [b/r] 자릿수 (r bits each)</li>
+          <li>각 자릿수에서 정수의 범위 0 to 2^r - 1, 그러므로 counting sort에서 k = 2^r - 1</li>
+        </ul>
+
+        <h4>&nbsp;&nbsp;Q: n과 b가 주어졌을 때 (b/r)(n + 2^r)를 최소화 하는 r은? (r &#60;= b)</h4>
+        <ul>
+          <li>r이 감소 -> b/r 증가 / 2^r 감소</li>
+          <li>b &#60; log n 일 경우</li>
+          <li>r = b -> (b/b)(n + 2^b) = Θ(n)</li>
+          <br>
+          <li>b &#62; log n 일 경우</li>
+          <li>r = log n -> Θ(bn/log n)</li>
+          <li>r > log n일 경우 2^r이 분모 r보다 더 빠르게 증가</li>
+        </ul>
+        <br>
+        <h3>Radix Sort: A Good Choice?</h3>
+        <p>Q: Radix Sort은 Quicksort와 같은 비교 기반 정렬 알고리즘에 비해 선호되는가?</p>
+        <ul>
+          <li>radix sort's running Θ(n)/ quicksort's expected running time Θ(nlog n) /으로 radix sort가 더 좋아보일 수 있음</li>
+          <li>그러나 Θ-표기법에서 숨겨진 상수 요인은 다를 수 있다 / radix sort는 n개의 key에 대해 quicksort 보다 적은 패스를 수행할 수 있지만, 각 패스는 더 오래 걸릴 수 있다.</li>
+          <li>따라서 어떤 정렬 알고리즘을 선호해야 하는지는 입력 데이터와 구현 특성, 그리고 기계의 하드웨어 캐시 등에 따라 다르다. 또한, 퀵소트는 종종 라디스 정렬보다 하드웨어 캐시를 더 효과적으로 사용할 수 있다.</li>
+        </ul>
+      </div>
+
+
+    <h2>Bucket Sort</h2>
+    <div class="item">
+      <h4>average-case running time : O(n)</h4>
+      <p>가정: 입력값-균일한 분포 / 숫자 범위 [0, 1	&#41;</p>
+      <ul>
+        <li>[0, 1	&#41;을 돌일한 크기의 버킷으로 나눔</li>
+        <li>n개의 입력을 버킷에 분배(숫자가 균일, 독립적으로 분포 -&#62; 한 버킷에 쏠림x)</li>
+        <li>각 버킷의 숫자를 정렬한 다음 버킷을 숫서대로 통과하여 각 버킷의 요소를 나열</li>
+      </ul>
+      <img src="../image/Bucket_Sort.png" alt="Bucket_Sort">
+      <img src="../image/Bucket_Sort_operation.png" alt="Bucket_Sort_operation">
+      <br>
+      <h3>Bucket Sort: Running Time</h3>
+      <p>worst case : O(n)</p>
+      <p>ni는 B[i] 버킷에 배치된 요소의 수를 나타내는 확률 변수 / 삽입 정렬은 이차 시간에 실행</p>
+      <img src="../image/BucketSort_runningTimg_1.png" alt="BucketSort_runningTimg_1">
+      <img src="../image/BucketSort_runningTime_2.png" alt="BucketSort_runningTimg_2">
+      <img src="../image/BucketSort_runningTime_3.png" alt="BucketSort_runningTimg_3">
+      <br>
+      <p>비록 입력값의 분배가 고르지 않더라도 linear time을 갖는다.</p>
+    </div>
+  
+  </div>
+
+</body>
+</html>

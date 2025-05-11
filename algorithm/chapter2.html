@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started</title>
+  <link rel="stylesheet" href="../css/study.css">
+</head>
+
+<body>
+  <div class="home">
+    <a href="./index.html">HOME</a>
+  </div>
+
+  <h1>Getting Started</h1>
+  <div class="container">
+    <h2> Insertion Sort</h2>
+    <div class="item">
+
+      <p>Problem definition(문제 정의) : </p>
+      <div class="flex">
+        <div>
+          <h4>input</h4>
+          <span>: A sequence of n numbers (a1, a2, ... an)</span>
+        </div>
+        <div>
+          <h4>output</h4>
+          <span>: (오름차순으로 정렬) <br> A permutation (reordering) (a'1, a'2, ... a'n) of the input sequence such that &nbsp;
+            a'1 &#60;= ... &#60;= a'n</span>
+        </div>
+      </div>
+      <ul>
+        <li>keys: the numbers to be sorted (정렬될 숫자)</li>
+        <li>satellite data: data associated with key (key 와 관련된 데이터)</li>
+        <li>record: keys + satellite data</li>
+      </ul>
+      <br>
+      <h4>의사 코드</h4>
+      <p>의사 코드로 작성된 절차로 알고리즘을 설명</p>
+      <br>
+
+      <fieldset>
+        <legend>INSERTION-SORT(A, n)</legend>
+        <ol>
+          <li>for i = 2 to n</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;key = A[i]</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;// Insert A[i] into the sorted subarray A[1:i-1]</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;j = i - 1</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;while j > 0 and A[j] > key</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A[j + 1] = A[j]</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j = j - 1</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;A[j+1] = key</li>
+        </ol>
+      </fieldset>
+      <br>
+      <img src="../image/insertionSort.png" alt="insertionSort">
+    </div>
+
+    <h2>Analyzing Algorithms</h2>
+    <div class="item">
+      <p>알고리즘을 분석하는 것은 알고리즘이 필요로 하는 자원, 시간을 예측</p>
+      <p>의사 코드의 각 줄이 실행되는 횟수, 시간을 조사 -> 프로그램의 실행 시간을 입력 크기(정렬할 항목의 수)의 함수로 설명</p>
+      <br>
+
+      <h3>The Best Case and The Worst Case</h3>
+      <p>주어진 크기의 입력에 대해서도 알고리즘의 실행 시간은 달라짐</p>
+      <ul>
+        <li>
+          <h4>The best case: the input array is already sorted</h4>
+          <p>이미 정렬 / O(n)</p>
+        </li>
+        <br>
+        <li>
+          <h4>The worst case: the input array is in reverse order</h4>
+          <p>이미 정렬 / O(n^2)</p>
+        </li>
+        <br>
+        <li>
+          <h4> Average-case running time</h4>
+          <p>모든 입력 경우를 고려하고, 그 등장 확률이 동일하다고 가정</p>
+          <p>O(n^2) / 평균적으로 A[1:i-1]의 절반 이하의 요소는 A[i]보다 작고, 나머지 절반은 큼 -> A[i]는 부배열 A[1:i-1]의 절반과 비교 -> ti 는 i/2 -> 평균 경우
+            실행 시간은 입력 크기의 이차 함수</p>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Designing Algorithms</h2>
+    <div class="item">
+      <h3>Algorithm Design Techniques</h3>
+      <ul>
+        <li>
+          <h4>incremental method.</h4>
+          <span>각 요소 A[i]에 대해 이미 정렬된 부배열 A[1:i-1]에 A[i]를 올바른 위치에 삽입</span>
+        </li>
+        <li>
+          <h4>divide-and-conquer method</h4>
+          <span>문제를 해결하기 위한 하위 문제를 처리하기 위해 재귀 호출하여 자신을 호출(분할 정복 방법)</span>
+          <p>base case : 문제가 충분히 작음 -> 직접 해결 -> 해결책 결합(원래 문제의 해결책)</p>
+        </li>
+      </ul>
+      <br>
+
+      <h3>Sorting by Divide-and-Conquer: Merge Sort</h3>
+      <p>입력 배열 A[1:n]로 시작하여 재귀적으로 하위 배열 A[p:r]를 정렬 -> A[p:q]와 A[q+1:r]을 병합</p>
+      <fieldset class="flex">
+        <legend>MERGE(A, p, q, r)</legend>
+        <img src="../image/merge.png" alt="merge">
+        <img src="../image/mergeSort.png" alt="merge">
+      </fieldset>
+      <br>
+      <h3>Analysis of Merge Sort</h3>
+      <p>재귀적인 알고리즘의 경우, 재귀식(recurrence equation)을 사용하여 실행 시간을 설명가능</p>
+      <h4>&nbsp;&nbsp;T(n) = 2T(n/2) + θ(n) ----	&#62; T(n) = θ(nlog n)</h4>
+    </div>
+
+  </div>
+
+  </div>
+</body>
+
+</html>

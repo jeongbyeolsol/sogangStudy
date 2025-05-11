@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quicksort</title>
+  <link rel="stylesheet" href="../css/study.css">
+</head>
+
+<body>
+  <div class="home">
+    <a href="./index.html">HOME</a>
+  </div>
+
+  <h1>Quicksort</h1>
+  <div class="container">
+    <h4>Worst-case : θ(n^2) /Average-case : θ(nlg n) / divide-and-conquer</h4>
+    <h2>Description of Quicksort</h2>
+    <div class="item">
+      <p>divide : A[p:r]을 A[p:q - 1] 과 A[q + 1:r]로 / 각각의 피봇-A[q]</p>
+      <p>Conquer : 각 배열에 quicksort를 재귀적으로 호출하여 정렬</p>
+      <p>Combine : 아무것도 안함</p>
+      <br>
+      <fieldset>
+        <legend>QUICKSORT(A, p, r)</legend>
+        <ol>
+          <li>if p &#60; r</li>
+          <li>&nbsp;&nbsp; // Partition the subarray around the pivot, which ends up in A[q]</li>
+          <li>&nbsp;&nbsp;q = PARTITION(A, p, r)</li>
+          <li>&nbsp;&nbsp;QUICKSORT(A, p, q - 1)</li>
+          <li>&nbsp;&nbsp;QUICKSORT(A, q - 1, r)</li>
+        </ol>
+      </fieldset>
+      <br>
+      <h4>Partitioning the Array</h4>
+      <fieldset>
+        <legend>PARTITION(A, p, r)</legend>
+        <ol>
+          <li>x = A[r]</li>
+          <li>i = p - 1</li>
+          <li>for j = p to r - 1</li>
+          <li>&nbsp;&nbsp;if A[j] &#60;= x</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;i = i + i </li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;exchange A[i] with A[j]</li>
+          <li>exchange A[i + 1] with A[r]</li>
+          <li>return i + 1</li>
+        </ol>
+      </fieldset>
+      <br>
+      <img src="../image/Partitioning_the_Array.png" alt="Partitioning the Array">
+      <br>
+      <p>If p &#60;= k &#60;= i, then A[k] &#60;= x;</p>
+      <p>If i + 1 &#60;= k &#60;= j - 1, then A[k] &#62; x;</p>
+      <p>If k = r, then A[k] = x</p>
+      <p>A[j] &#62; x -&#62; 루프 반복 / A[j] &#60;= x -&#62; A[i]와 A[j] swap and i += 1</p>
+      <br>
+      <h3>Termination(종료)</h3>
+      <ul>
+        <li>r - p번의 반복을 수행하므로 j = r이 되면 종료</li>
+        <li>3개의 집합으로 분할 됨 : x값 이상 / x값 이하/ x값(피봇)</li>
+        <li>마지막 (7-8)라인 swap 피봇 with A[i + 1]</li>
+      </ul>
+    </div>
+
+    <h2>Performance of Quicksort</h2>
+    <div class="item">
+      <h3>Running Time of Quicksort</h3>
+      <p>Quicksort의 실행시간은 각 부분이 균형있게 분할되는지에 따라 달라짐</p>
+      <ol>
+        <li>partitioning is balanced : O(nlg n)</li>
+        <li>partition is unbalanced : O(n^2)</li>
+      </ol>
+      <br>
+      <h3>Quicksort: Worst-Case Partitioning</h3>
+      <p>최악의 경우 : partitioning n - 1개의 요소 / 0개의 요소</p>
+      <p>T(n) = T(n - 1) + T(0) + Θ(n) &nbsp; =&#62; &nbsp; T(n) = Θ(n^2)</p>
+      <p>이미 정렬된 배열을 정렬 : Insertion sort = O(n) / Quicksort = O(n^2)</p>
+      <br>
+      <h3>Quicksort: Best-case Partitioning</h3>
+      <p>최고의 경우 : partitioning 약 n/2개의 요소 / 약 n/2개의 요소</p>
+      <p>T(n) = 2T(n/2) + Θ(n) &nbsp; =&#62; &nbsp; T(n) = Θ(nlg n)</p>
+      <br>
+      <h3>Quicksort: Balanced Partitioning</h3>
+      <p>평균 시간복잡도는 최악의 경우보다 최선의 경우에 훨씬 가까움</p>
+      <p>Let, T(n) = T(9n/10) + T(n/10) + Θ(n)</p>
+      <img src="../image/Balanced_partitioning.png" alt="Balanced_partitioning">
+      <p>각 분할에서 recursion tree의 깊이가 Θ(lg n)일 떄, 각 레벨에서의 비용은 O(n)이므로 T(n) = O(nlg n)</p>
+    </div>
+
+    <h2>Analysis of Quicksort</h2>
+    <div class="item">
+      <p>pivot이 무작위로 선택된다 가정하고 T(n)을 계산</p>
+      <p>T(n) = O(n + X) / X는 수행된 요소 비교의 수</p>
+      <ul>
+        <li>Quicksort의 실행시간은 Partition의 시간에 의해 결정됨</li>
+        <li>Partition호출 -&#62; 피벗 선택 (이 피벗 다시 호출x)</li>
+        <li>각의 QUICKSORT 호출이 PARTITION을 호출할 때, 두번 재귀호출 하므로 Quicksort자체의 최대 호출수 = 2n</li>
+        <li>PARTITION 한번 호출 시간 : O(1) + 라인 3-6의 for loops횟수(비봇과 다른 원소를 비교)</li>
+        <li>따라서 모든 실행에서 for 루프에서 소비하는 총 시간은 X에 비례</li>
+        <li>PARTITION이 최대로 호출될 경우와 for 루프 외부에서 사용되는 시간은 O(1)이며 각 호출에 소요되므로 for 루프에서 총 소요되는 시간은 O(n) / T(n) = O(n + X)
+        </li>
+      </ul>
+      <br>
+      <p>E[X]를 알기 위해알고리즘이 언제 두 요소를 비교하는지와 언제 비교하지 않는지를 파악해야 함</p>
+      <p>z1 &#60; ... &#60; zn에서 zi와 zj (i &#60; j)가 비교되려면 반드시 둘중 하나가 피봇으로 선택되어야 함</p>
+      <p>i와 j가 비교될 확률 = 2/(j - i + 1)</p>
+      <ul>
+        <li>피봇 x가 Zij사이에 속하는 요소들가 되기 전까지 zi와 zj가 비교될 수 있음</li>
+        <li>Zij중 zi 또는 zj가 골라질 확률 = zi와 zj가 비교될 확률 (|Zij| = j - i + 1)</li>
+      </ul>
+      <br>
+      <h4>The expected running time of RANDOMIZED-QUICKSORT on an input of n distinct element is <br> O(nlg n)</h4>
+      <img src="../image/Quicksort_AverageCase1.png" alt="Quicksort_AverageCase1">
+      <img src="../image/Quicksort_AverageCase2.png" alt="Quicksort_AverageCase2">
+    </div>
+
+    <h2>Improving performance of quick sort</h2>
+    <div class="img">
+
+      <div class="item">
+        <p>좋은 피봇 = 중앙값 피봇</p>
+        <h4>Tail recursion optimization (꼬리 재귀 최적화)</h4>
+        <p>: 각 분할 후, 더 작은 범위를 재귀 호출로 처리하고 더 큰 범위를 반복적으로 처리, 더 큰 범위에 대한 재귀 호출을 피할 수 있으며, 재귀의 깊이가 O(log n) 이하로 제한</p>
+        <br>
+        <p>Quick sort vs. Introspective sort</p>
+        <p>크기가 작으면 Quick sort 크면 다른 sort 사용</p>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>

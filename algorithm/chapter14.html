@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Dynamic Programming</title>
+  <link rel="stylesheet" href="../css/study.css">
+</head>
+
+<body>
+  <div class="home">
+    <a href="./index.html">HOME</a>
+  </div>
+
+  <h1> Dynamic Programming</h1>
+  <div class="container">
+    <h2>Introduction</h2>
+    <div class="item">
+      <p>Dynamic program: 하위 문제의 해결 방법을 결합하여 문제를 해결하는 알고리즘 기법</p>
+    <ul>
+      <li>
+        <p>Difference with divide-and-conquer: 부분 문제가 중첩되고, 부분 문제 간에 부분문제의 부문 문제를 공유하는 경우에 적용</p>
+      </li>
+      <li>
+        <p>subproblems가 겹칠때 divide-and-conquer알고리즘을 더 수행할 필요x</p>
+      </li>
+      <li>
+        <p>부분 문제가 주로 서로 독립적으로 해결되며 부분 문제 간에 정보 공유 없이 처리</p>
+      </li>
+      <li>
+        <p>동적 프로그래밍은 일반적으로 최적화 문제(여러가지 해를 가지고 값이 할당되며 최적 값의 해가 있을 수 있음)에 적용</p>
+      </li>
+    </ul>
+    <br>
+    <p>Step</p>
+    <ol>
+      <li>최적해의 구조를 특징 짓기</li>
+      <li>최적해의 값을 재귀적으로 정의</li>
+      <li>일반적으로 bottom-up방식으로 최적해의 값을 계산</li>
+      <li>계산된 정보에서 최적해를 구성</li>
+    </ol>
+    </div>
+
+    <h2>Rod Cutting</h2>
+    <div class="item">
+      <p>긴 철재 막대를 짧은 막대로 잘라서 판매, find 최댓값 (cut is free, 정수 길이로 자름, 각 길이마다 가격 할당)</p>
+      <img src="../image/Rod_cutting_example.png" alt="Rod_cutting_example">
+      <br>
+      <p>길이n인 막데가 주어짐, 각 길이 가격 pi for i = 1, 2, ..., n / 모든 경우의 수 2^(n - 1)</p>
+      <br>
+      <p>optimal revenues from shorter rods : rn = max{pn, r1 + rn - 1, r2 + rn-2, ..., rn-1 + r1}</p>
+      <p>이 경우 두개의 하위 문제로 나누어진 문제의 각각에 대한 최적해를 포함 (하위 문제의 수익 최대화)</p>
+      <h4>Optimal substructure</h4>
+      <p>문제의 최적해는 관련된 하위 문제의 최적해를 포함하며, 이들을 독립적으로 해결할 수 있다.</p>
+      <br>
+      <ul>
+        <li>왼쪽 길이: i / 오른쪽 길이 n - i</li>
+        <li>오직 오른쪽만 자름</li>
+        <li><h4>rn = max{pi + rn - i : 1 &#60;= i &#60;= n}</h4></li>
+      </ul>
+      <h3>The Rod-Cutting Problem: Divide-and-Conquer?</h3>
+      <fieldset>
+        <img src="../image/Rod_cutting_Divide_and_conquer.png" alt="Rod_cutting_Divide_and_conquer">
+        <br>
+        <img src="../image/Rod_cutting_Divide_and_conquer_Recursion_tree.png" alt="Rod_cutting_Divide_and_conquer_Recursion_tree">
+      </fieldset>
+      <p>T(0) = 1, T(n) = 1 + Σj=0->n-1 T(j)</p>
+      <h4>T(n) = 2^n = Θ(2^n)</h4>
+      <ul>
+        <li>길이 n인 막대에 잘라낼 수 있는 n-1개의 위치</li>
+        <li>각각의 가능한 방법은 n - 1곳의 위치 중 일부를 자르는 것을 의미(아무것도 자르지 않는것도 포함)</li>
+        <li>이것은 2^(n - 1)개의 subsets를 가짐 / 리프노드의 개수 = Thus, 2^(n - 1) / 2^(n - 1)번의 재귀호출</li>
+      </ul>
+      <br>
+
+      <h3>The Rod-Cutting Problem: Dynamic Programming</h3>
+      <p>동일한 문제를 각 하위문제가 한번만 해결하도록 조치</p>
+      <ul>
+        <li>하위 문제를 해결할 때, 해당 솔루션을 테이블에 저장</li>
+        <li>이 하위 문제의 솔루션을 참조해야 하는 경우 확인(계산x)</li>
+        <li>솔루션을 저장할 메모리가 필요</li>
+      </ul>
+      <br>
+      <h4>Top-down approach</h4>
+      <ul>
+        <li>재귀적으로 작성하여 각 하위 문제의 결과를 저장하도록 수정</li>
+        <li>하위 문제를 해결할 때, 절차는 먼저 솔루션이 이전에 저장되었는지 확인</li>
+        <li>솔루션이 저장된 경우, 절차는 그 값을 단순히 반환</li>
+        <li>솔루션이 저장되지 않은 경우, 절차는 값을 계산하고 저장</li>
+      </ul>
+      <fieldset>
+        <legend>CUT-ROD</legend>
+        <h3>Top-down approach</h3>
+        <img src="../image/Rod_cutting_Dynamic_program.png" alt="Rod_cutting_Dynamic_program">
+        <br><br>
+        <h3>Bottom-up approach</h3>
+        <img src="../image/Bottom-up-cut-rod.png" alt="Bottom-up-cut-rod">
+      </fieldset>
+
+      <h4>Bottom-up approach</h4>
+      <ul>
+        <li>하위 문제를 크기 순으로, 가장 작은 것부터 해결하며 각 하위 문제의 솔루션을 처음 해결할 때 저장</li>
+        <li>특정 문제를 해결할 때 그 해결에 필요한 모든 더 작은 하위 문제의 솔루션이 이미 저장되어 있음</li>
+        <li>위 문제를 한 번만 해결하면 되며, 처음으로 볼 때 모든 전제 하위 문제가 이미 해결되어 있음</li>
+      </ul>
+      <h4>Running time of BOTTOM-UP-CUT-ROD</h4>
+      <ul>
+        <li>line 3-7 for loop, j 증가 1 to n</li>
+        <li>line 5-7 에서의 내부루프 j번 실행</li>
+        <li><h4>T(n) = Θ(n^2)</h4></li>
+      </ul>
+      <br>
+      <h4>Running time of MEMOIZED-CUT-ROD</h4>
+      <ul>
+        <li>각각의 문제를 크기 0, 1, ... n을 한번만 해결</li>
+        <li>line 6-7에서 n번 루프</li>
+        <li>(1 + 2 + ... + n) = Θ(n^2)</li>
+      </ul>
+      <br>
+      <h3>Subproblem Graph</h3>
+      <p>subproblems graph는 어떻게 각 subproblems가 다른 subproblems에 의존하는지 보여준다</p>
+      <img src="../image/Subproblem_graph.png" alt="Subproblem_graph">
+      <ul>
+        <li>부분 문제의 솔루션을 계산하는 데 걸리는 시간은 해당 부분 문제 그래프의 정점 (나가는 간선의 수)의 정점에 비례</li>
+        <li>부분 문제의 수는 부분 문제 그래프의 정점 수와 같다</li>
+        <li>프로그래밍의 실행 시간은 정점 및 간선 수에 선형으로 비례</li>
+      </ul>
+      <br> <br>
+
+      <img src="../image/Rod_cut_Bottom_up_solution.png" alt="Rod_cut_Bottom_up_solution">
+      <img src="../image/Print_cut_rod_solution.png" alt="Print_cut_rod_solution">
+    </div>
+
+
+    <h2>Matrix-Chain Multiplication</h2>
+    <div class="item">
+      <h3>Matrix-Chain Multiplication Problem: Introduction</h3>
+      <p>A1,A2,...An 메트릭스를 곱할 때 연산의 수를 최소화 하는 곱셈순서를 구하는 문제</p>
+      
+      <fieldset>
+        <legend>RECTANGULAR-MATRIX-MULTIPLY(A, B, C, p, q, r)</legend>
+        <ol>
+          <li>for i = 1 to p</li>
+          <li>&nbsp;&nbsp;for j = 1 to r</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;for k = 1 to q</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cij = cij + aik x akj</li>
+        </ol>
+      </fieldset>
+      <h4>RECTANGULAR-MATRIX-MULTIPLY의 running time = p x q x r에 의헤 정해짐</h4>
+      <p>여러개의 행령을 곱할 때 곱하는 순서에 따라 연산 시간이 달라짐</p>
+      <br>
+      <h3>Problem Definition</h3>
+      <ul>
+        <li>주어진 행렬 연쇄 <A1, A2, ... An>은 i = 1, 2, ..., n 일 때 행렬 Ai가 차원 pi-1 x pi를 가지며, 스칼라 곱셈 횟수를 최소화하는 방식으로 A1A2...An의 곱셈을 완전히 괄호로 묶어야 함</li>
+        <li>The input is the sequence of dimensions &#60;p0, p1, ... , pn></li>
+        <li>제로 행렬을 곱하는 것x, 목표 = 최소 비용으로 행렬을 곱하는 순서를 결정</li>
+        <li>최적의 순서를 결정하는 데 투자한 시간 &#60; 행렬 곱셈을 수행할 때 나중에 절약되는 시간</li>
+      </ul>
+      <br>
+      <h4>Counting the Number of Parenthesizations(괄호)</h4>
+      <ul>
+        <li>n개의 행렬 시퀀스의 대안 괄호화 수를 P(n)으로 표시</li>
+        <li>n이 1일 때, 하나의 행렬만 있는 것이므로 행렬 곱셈을 완전히 괄호화할 수 있는 방법은 딱 하나</li>
+        <li>n이 2 이상인 경우, 완전히 괄호화된 행렬 곱셈은 두 개의 완전히 괄호화된 행렬 하위 곱셈의 곱</li>
+        <li> 두 하위 곱셈 사이의 분할은 k가 1, 2, ..., n - 1 일 때 k번째와 (k + 1)번째 행렬 사이에서 일어날 수 있다.</li>
+        <img src="../image/Counting_the_number_of_parenthesization.png" alt="Counting_the_number_of_parenthesization">
+        <br> <br>
+        <h3>Applying Dynamic Programming</h3>
+        <ol>
+          <span>The four steps</span>
+          <li>최적 해결책의 구조를 특성화</li>
+          <li>최적 해결책의 가치를 재귀적으로 정의</li>
+          <li>최적 해결책의 가치를 계산</li>
+          <li>계산된 정보로부터 최적 해결책을 구축</li>
+        </ol>
+      </ul>
+      <br>
+      <h4>Step 1: Structure of an Optimal Parenthesizatio</h4>
+      <ul>
+        <li>Ai:j를 계산할 때 죄적의 split은 Ak and Ak+1이라 가정</li>
+        <li>In this solution 각 하위 연쇄의 괄호화는 최적 괄호 / Ai:k와 Ak+1:j의 대한 최적의 괄호 해를 가지고 있음</li>
+        <li>최적 해결책을 구축하기 위해 문제를 두 개의 하위 문제로 분할하고, 두 하위 문제 인스턴스의 최적 해결책을 찾은 다음 이 최적 하위 문제 해결책을 결합</li>
+        <li>최적 분할을 검토하기 위해 모든 가능한 분할을 고려</li>
+      </ul>
+      <br> <br>
+
+      <h4>Step 2: A Recursive Solution</h4>
+      <ul>
+        <li>Given the input dimensions &#60;p0, p1, ..., pn>, an index pair i, j specifies a subproblem</li>
+        <li>m[i, j]를 최소 스칼라 곱셈 횟수라고 가정</li>
+        <li>m[i, j] = m[i,k] + m[k + 1,j] + pi-1 x pk x pj</li>
+        <li>우리는 최적의 k값을 모르므로 모든 k의 경우의 수를 검토해야 함</li>
+      </ul>
+      <img src="../image/Matrix_multiple_recursive_solution.png" alt="Matrix_multiple_recursive_solution">
+      <br> <br>
+
+      <h4>Step 3: Computing the Optimal Costs</h4>
+      <ul>
+        <li>i, j의 각 선택마다 하위 문제 하나가 존재하므로 : the number of subproblems is Θ(n^2)</li>
+        <li>문제를 해결하기 위해 테이블 기반의 bottom-up approach를 사용</li>
+      </ul>
+      <fieldset>
+        <legend> MATRIX-CHAIN-ORDER</legend>
+        <img src="../image/MATIRX-CHAIN-ORDER.png" alt="MATIRX-CHAIN-ORDER">
+        <img src="../image/MATRIX-CHAIN-ORDER_operation.png" alt="MATRIX-CHAIN-ORDER_operation">
+      </fieldset>
+      <br> <br>
+
+      <h4>Step 4: Constructing an Optimal Solution</h4>
+      <fieldset>
+        <legend>Print optimal parens</legend>
+        <img src="../image/Print_optimal_parens.png" alt="Print_optimal_parens">
+      </fieldset>
+      <ul>
+        <li>MATRIX-CHAIN-ORDER에는 세 개의 중첩된 for 루프</li>
+        <li>각 루프 인덱스 (i, j, 그리고 k)는 최대 n - 1개의 값을 가질 수 있다</li>
+        <li><h4>Running time of the procedure: Θ(n^3)</h4></li>
+        <li><h4>Memory space of algorithm requiring: Θ(n^2)</h4></li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+
+</html>

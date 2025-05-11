@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Binary Search Trees</title>
+  <link rel="stylesheet" href="../css/study.css">
+</head>
+
+<body>
+  <div class="home">
+    <a href="./index.html">HOME</a>
+  </div>
+
+  <h1>Binary Search Trees</h1>
+  <div class="container">
+    <h2>Binary Search Tree: Introduction</h2>
+    <div class="item">
+      <p>이진 탐색 트리의 기본 연산은 트리의 높이에 비례하는 시간이 소요 됨</p>
+      <p>트리에서 노드의 높이 : 해당 노드에서 잎까지의 가장 긴 간단한 하향 경로의 edge수</p>
+      <p>트리의 높이 = 루트의 높이</p>
+      <p>완전 이진 트리의 경우, worst case = O(log n) / 완전 이진 트리는 모든 레벨이 왼쪽에서부터 채워진 것을 제외하고는 모든 레벨이 완전히 채워진 이진 트리</p>
+      <p>트리가 노드의 선형 체인인 경우, worst cast = O(n)</p>
+    </div>
+
+    <h2>What is a binary search tree?</h2>
+    <div class="item">
+      <p>트리가 가지는 속성 : key / left: 왼쪽 자식에 대한 링크 / right: 오른쪽 자식에 대한 링크 / p: 부모에 대한 링크</p>
+      <p>자식이나 부모가 없는 경우, 해당 속성에는 NIL이 들어감 / 트리 자체는 루트 노드를 가리키는 root라는 속성이 있음</p>
+      <br>
+      <h4>A binary search tree</h4>
+      <p>이진 탐색 트리 속성을 만족하는 이진 트리</p>
+      <fieldset>
+        <legend>property</legend>
+        <p>
+          Let x be a node in a binary search tree.
+          <br>
+          If y is a node in the left sybtree of x, then y.key &#60;= s.key
+          <br>
+          If y is a node in the right sybtree of x, then y.key >= x.key
+        </p>
+      </fieldset>
+      <p>in-order tree walk -> 모든 키를 정렬된 순서로 출력</p>
+      <ul>
+        <li>
+          <p>In-order tree walk : 재귀적인 알고리즘으로, 해당 서브트리의 루트 키를 왼쪽 서브트리의 값과 오른쪽 서브트리의 값 사이에 출력함</p>
+          <fieldset>
+            <legend>INORDER-TREE-WALK(x)</legend>
+            <ol>
+              <li>if x != NIL</li>
+              <li>&nbsp;&nbsp;INORDER-TREE-WALK(x.left)</li>
+              <li>&nbsp;&nbsp;printfx.key</li>
+              <li>&nbsp;&nbsp;INORDER-TREE-WALK(x.right)</li>
+            </ol>
+          </fieldset>
+        </li>
+        <p>Other walk algorithms</p>
+        <li>pre-order walk : 루트를 왼쪽 또는 오른쪽 서브트리의 값 앞에 출력</li>
+        <li>post-order walk : 루트를 왼쪽 또는 오른쪽 서브트리의 값 뒤에 출력</li>
+      </ul>
+      <br>
+
+      <h3>Binary Search Tree: Cost of Walk</h3>
+      <p> n개 노드를 순회하는 데는 O(n) 시간이 소요</p>
+      <p>초기 호출 이후, 이 procedure은 트리의 각 노드에 대해 정확히 두 번 재귀적으로 호출됨 (왼쪽 자식, 오른쪽 자식)</p>
+      <p>T(n) &#60;= T(k) + T(n - k + 1) + d &#60;= ((c + d)k + c) + ((c + d)(n - k - 1) + c) + d = (c + d)n + c</p>
+    </div>
+
+    <h2>Querying a binary search tree</h2>
+    <div class="item">
+      <p>이진 탐색 트리는 MINIMUM, MAXIMUM, SUCCESSOR, PREDECESSOR 및 SEARCH 쿼리를 지원 / O(h) (h = height of tree)</p>
+      <ul>
+        <li>MINIMUM: 이진 탐색 트리에서 가장 작은 값을 찾음</li>
+        <li>MAXIMUM: 이진 탐색 트리에서 가장 큰 값을 찾음</li>
+        <li>SUCCESSOR: 주어진 값의 다음으로 큰 값을 찾음</li>
+        <li>PREDECESSOR: 주어진 값의 바로 이전 값(다음으로 작은 값)을 찾음</li>
+      </ul>
+      <br>
+
+      <h3>Binary Search Tree: Searching</h3>
+      <p>TREE-SEARCH의 실행 시간 : O(h)</p>
+      <div class="flex">
+        <fieldset>
+          <legend>TREE-SEARCH(x, k)</legend>
+          <p>// Recursive implementation</p>
+          <ol>
+            <li>if x == NIL or k == x.key</li>
+            <li>&nbsp;&nbsp; return x</li>
+            <li>if k &#60; x.key</li>
+            <li>&nbsp;&nbsp; return TREE-SEARCH(x.left, k)</li>
+            <li>else return TREE-SEARCH(x.right, k)</li>
+          </ol>
+        </fieldset>
+        <fieldset>
+          <legend>ITERATIVE-TREE-SEARCH(x, k)</legend>
+          <p>// Iterative implementation</p>
+          <ol>
+            <li>while x != NIL and k != x.key</li>
+            <li>&nbsp;&nbsp;if k &#60; x.key</li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;x = x.left</li>
+            <li>&nbsp;&nbsp;else x = x.right</li>
+            <li>return return x</li>
+          </ol>
+        </fieldset>
+      </div>
+      <br>
+
+      <h3>Binary Search Tree: Minimum and Maximum</h3>
+      <p>최솟값 찾기 : 왼쪽 끝으로 이동 / 최댓값 찾기 : 오른쪽 끝으로 이동</p>
+      <p>rinning time : O(h)</p>
+      <div class="flex">
+        <fieldset>
+          <legend>TREE-MINIMUM(x)</legend>
+          <ol>
+            <li>while x.left != NIL</li>
+            <li>&nbsp;&nbsp;x == x.left</li>
+            <li>return x</li>
+          </ol>
+        </fieldset>
+        <fieldset>
+          <legend>TREE-MAXIMUM(x)</legend>
+          <li>while x.right != NIL</li>
+            <li>&nbsp;&nbsp;x == x.right</li>
+            <li>return x</li>
+        </fieldset>
+      </div>
+      <br>
+
+      <h3>Binary Search Tree: Successor and Predecessor</h3>
+      <p>successor : 노드 x의 successor = x.key보다 큰 가장 작은 키를 가진 노드 / 중위 트리 순회에서 방문되는 다음 노드</p>
+      <ul>
+        <p>2 Case</p>
+        <li>x 의 오른쪽 자식노드가 있음 -> successor =  leftmost node in x's right subtree.</li>
+        <li>x 의 오른쪽 자식노드가 없고 successor가 있음 -> successor = lowest ancestor of x whose left child is also an ancestor of x.</li>
+      </ul>
+      <fieldset>
+        <legend>TREE-SUESSOR(x)</legend>
+        <ol>
+          <li>if x.right != NIL</li>
+          <li>&nbsp;&nbsp;return TREE-MINIMUM(x.right)</li>
+          <li>else</li>
+          <li>&nbsp;&nbsp;y = x.p</li>
+          <li>&nbsp;&nbsp;while y !=NIL and x == y.right</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;x = y</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;y = y.p</li>
+          <li>&nbsp;&nbsp; return y</li>
+        </ol>
+      </fieldset>
+    </div>
+
+    <h3>Insertion and deletion</h3>
+    <div class="item">
+      <p>삽입, 삭제 : 이진 탐색 트리 구조 수정 -> 이진 탐색 트리 속성 유지</p>
+      <br>
+
+      <h3>Insertion</h3>
+      <p>running time : O(h)</p>
+      <fieldset>
+        <legend>TREE-INSERT(T, z)</legend>
+        <ol>
+          <li>x = T.root</li>
+          <li>y = NIL</li>
+          <li>while x != NIL</li>
+          <li>&nbsp;&nbsp;y = x</li>
+          <li>&nbsp;&nbsp;if z.key &#60; x.key</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;x = x.left</li>
+          <li>&nbsp;&nbsp;else x = x.right</li>
+          <li>z.p = y</li>
+          <li>if y == NIL</li>
+          <li>&nbsp;&nbsp;T.root = z</li>
+          <li>else if z.key &#60; y.key</li>
+          <li>&nbsp;&nbsp;y.left = z</li>
+          <li>else y.right = z</li>
+        </ol>
+      </fieldset>
+      <br>
+
+      <h3>Deletion</h3>
+      <ul>
+        <p>running time : O(h)</p>
+        <p>three case</p>
+        <li>z 에게 자식이 없음 -> z를 삭제</li>
+        <li>z 에게 하나의 자식이 있음 -> 자식을 위로 올림</li>
+        <li>z 에게 두개의 자식이 있음 -> z의 successor(반드시 z의 오른쪽 서브트리가 됨)을 찾아 z의 위치로 옮김 
+          <br>
+          (z의 오른쪽 서브트리 -> successor의 오른쪽 서브트리 / z의 왼쪽서브트리 -> successor의 왼쪽 서브트리)</li>
+      </ul>
+      <fieldset>
+        <legend>TRANSPLANT(T, u, v)</legend>
+        <ol>
+          <li>if u.p == NIL</li>
+          <li>&nbsp;&nbsp;T.root = v</li>
+          <li>else if u == u.p.left</li>
+          <li>&nbsp;&nbsp; u.p.left = v</li>
+          <li>else u.p.right = v</li>
+          <li>if v != NIL</li>
+          <li>&nbsp;&nbsp; v.p = u.p</li>
+        </ol>
+      </fieldset>
+      <fieldset>
+        <legend>TREE-DELETE(T, z)</legend>
+        <ol>
+          <li>if z.left == NIL</li>
+          <li>&nbsp;&nbsp;TRANSPLANT(T ,z ,z.right)</li>
+          <li>else if z.right == NIL</li>
+          <li>&nbsp;&nbsp;TRANSPLANT(T, z, z.left)</li>
+          <li>else y = TREE-MINIMUM(z.right)</li>
+          <li>&nbsp;&nbsp;if y != z.right</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;TRANSPLANT(T, y, y.right)</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;y.right = z.right</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;y.right.p = y</li>
+          <li>&nbsp;&nbsp;TRANSPLANT(T, z, y)</li>
+          <li>y.left = z.left</li>
+          <li>y.left.p = y</li>
+        </ol>
+      </fieldset>
+    </div>
+  </div>
+</body>
+
+</html>
